@@ -13,6 +13,16 @@ sudo apt install -y imagemagick
 sudo apt install -y build-essential cmake vim-nox python3-dev
 sudo apt install -y mono-complete golang nodejs default-jdk npm
 
+#Setup GPG https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key
+#Add GPG key to Github
+gpg --full-generate-key
+gpg --list-secret-keys --keyid-format=long
+git config --global commit.gpgsign true
+
+#Setup SSH Keys https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+#Add SSH key to git
+ssh-keygen -t ed25519 -C "$EMAIL"
+
 ###Copy setup config/scripts from Git repo
 git clone git@github.com:LukeGReid/DevEnvironment.git ~/DevEnvironment
 cp -f "$GITREPODESTINATION/Vim/.vimrc" ~/
@@ -24,15 +34,6 @@ cp -f "$GITREPODESTINATION/Vim/.config/yamllint/.config" ~/.config/yamllint/
 git config --global user.name "$DEVELOPERNAME"
 git config --global user.email "$EMAIL"
 git config --global core.excludesfile ~/.gitignore_global
-
-#Setup GPG https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key
-#Add GPG key to Github
-gpg --full-generate-key
-gpg --list-secret-keys --keyid-format=long
-
-#Setup SSH Keys https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-#Add SSH key to git
-ssh-keygen -t ed25519 -C "$EMAIL"
 
 ###Setup Vim
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 100
